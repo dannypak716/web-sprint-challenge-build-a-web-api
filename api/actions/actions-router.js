@@ -36,37 +36,22 @@ router.post('/', validateAction, async (req, res, next) => {
 })
 
 router.put('/:id', validateActionId, validateActionUpdate, async (req, res, next) => {
-    try{
-
+    try{ 
+        const updatedAction = await Action.update(req.params.id, req.body)
+        res.status(200).json(updatedAction)
     } catch (err) {
         next(err)
     }
 })
 
-router.put('/:id', validateProjectId, validateProjectUpdate, async (req, res, next) => {
-    try{
-        const { id } = req.params
-        const { name, description, completed } = req.body
-        const updatedProject = await Project.update(id, {
-            name: name,
-            description: description,
-            completed: completed 
-        })
-        console.log(updatedProject)
-        res.status(200).json(updatedProject)
+router.delete('/:id', validateActionId, async (req, res, next) => {
+    try {
+        await Action.remove(req.params.id)
+        res.json(req.action)
     } catch (err) {
         next(err)
     }
 })
-
-// router.delete('/:id', (req, res) => {
-    
-// })
-
-
-
-
-
 
 router.use((err, req, res, next) => {   // eslint-disable-line
     res.status(err.status || 500).json({

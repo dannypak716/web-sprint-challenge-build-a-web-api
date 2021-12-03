@@ -35,8 +35,8 @@ function validateAction(req, res, next) {
 function validateActionUpdate(req, res, next) {
     try {
         if(req.body.project_id && 
-            req.body.name && 
             req.body.description && 
+            req.body.notes && 
             req.body.completed !== undefined) {
             next()
         } else {
