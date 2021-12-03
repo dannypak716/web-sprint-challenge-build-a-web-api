@@ -6,7 +6,7 @@ async function validateProjectId(req, res, next) {
       if (!project) {
         next({
           status: 404,
-          message: 'user not found'
+          message: 'project not found'
         })
       } else {
         req.project = project
@@ -19,10 +19,10 @@ async function validateProjectId(req, res, next) {
 
 function validateProject(req, res, next) {
     try {
-        if(!req.body.name || !req.body.description) {
+        if(!req.body.name || !req.body.description ) {
             next({
                 status: 400,
-                message: 'requires a name and description'
+                message: 'requires a name and description status'
             })
         } else {
             next()
@@ -32,8 +32,25 @@ function validateProject(req, res, next) {
     }
 }
 
+function validateProjectUpdate(req, res, next) {
+  try {
+      if(req.body.name && req.body.description && req.body.completed !== undefined) {
+          next()
+      } else {
+          next({
+            status: 400,
+            message: 'requires a name and description and completed status'
+        })
+      }
+  } catch (err) {
+      next(err)
+  }
+}
+
+
 module.exports = {
     validateProjectId,
-    validateProject
+    validateProject,
+    validateProjectUpdate
 }
 
